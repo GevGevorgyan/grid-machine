@@ -1,5 +1,7 @@
-td{
+.inLine{
     width: 80px;
     height: 80px;
-    border: solid;
+    border: 1px solid black;
+    display: inline-block;
 }
+
