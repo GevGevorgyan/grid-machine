@@ -2,56 +2,55 @@
 (function IIFE() {
     var board = {
         grid: null,
-        button: null,
-        form: null
+        form: null,
+        draw: null
     };
 
     function init() {
-        board.button = document.getElementById('boardButton');
         board.grid = document.getElementById('inputGrid');
-        board.form = document.getElementById("drawForm");
+        board.form = document.getElementById('drawForm');
+        board.draw = document.getElementById('gridDraw');
+
         bindEvents();
     }
 
     function bindEvents() {
-        var ele = board.form;
-        if (ele != null) {
-            if (ele.addEventListener) {
-                ele.addEventListener('submit', draw);
-            } else if (ele.attachEvent) {
-                ele.attachEvent('onsubmit', draw);
-
-            }
-            ele.addEventListener('submit', function (e) {
-                if (ele) {
-                    e.preventDefault();
-                }
-            });
+        if (board.form.addEventListener) {
+            board.form.addEventListener('submit', draw);
+        } else if (board.form.attachEvent) {
+            board.form.attachEvent('submit', draw);
         }
     }
 
     function clean() {
-        document.getElementById('gridDraw').innerHTML = "";
-        board.grid.value = "";
+        board.draw.innerHTML = '';
+        board.grid.value = '';
     }
 
-    function draw() {
+    function draw(e) {
+        e.preventDefault();
         var num = parseInt(board.grid.value);
-        clean();
         if (isNaN(num)) {
-            alert("Please type number ,instead of string");
+            alert('Please type number ,instead of string');
             return;
         }
-        var cont = document.getElementById("gridDraw");
+        clean();
         for (var i = 0; i < num; i++) {
-            var grid = document.createElement("div");
-            cont.appendChild(grid);
-            grid.className = "container";
+            var grid = document.createElement('div');
+            board.draw.appendChild(grid);
+            grid.className = 'container';
             for (var j = 0; j < num; j++) {
                 grid.innerHTML += "<div class='inLine'></div>"
             }
         }
 
+    }
+
+    if (window.addEventListener) {
+        window.addEventListener('DOMContentLoaded', function (e) {
+        })
+    } else {
+        alert('Dom content is not loaded');
     }
 
     init();
