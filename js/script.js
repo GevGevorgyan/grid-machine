@@ -1,19 +1,57 @@
-function grid() {
-    document.getElementById('divTable').innerHTML = "";
-    var inputValue = document.getElementById('gridInput').value;
-    var value = parseInt(inputValue);
-    var gridTable = document.createElement('table');
-    for (var i = 0; i < inputValue; i++) {
-        var tr = document.createElement('tr');
-        for (var j = 0; j < inputValue; j++) {
-            var td = document.createElement('td');
-            tr.appendChild(td);
+'use strict';
+(function IIFE() {
+    var board = {
+        grid: null,
+        form: null,
+        draw: null
+    };
+
+    function init() {
+        board.grid = document.getElementById('inputGrid');
+        board.form = document.getElementById('drawForm');
+        board.draw = document.getElementById('gridDraw');
+
+        bindEvents();
+    }
+
+    function bindEvents() {
+        if (board.form.addEventListener) {
+            board.form.addEventListener('submit', draw);
+        } else if (board.form.attachEvent) {
+            board.form.attachEvent('submit', draw);
         }
-        gridTable.appendChild(tr);
     }
-    document.getElementById('divTable').appendChild(gridTable);
-    if (isNaN(value)) {
-        alert('please type number, instead of string');
+
+    function clean() {
+        board.draw.innerHTML = '';
+        board.grid.value = '';
     }
-    event.preventDefault(grid);
-}
+
+    function draw(e) {
+        e.preventDefault();
+        var num = parseInt(board.grid.value);
+        if (isNaN(num)) {
+            alert('Please type number ,instead of string');
+            return;
+        }
+        clean();
+        for (var i = 0; i < num; i++) {
+            var grid = document.createElement('div');
+            board.draw.appendChild(grid);
+            grid.className = 'container';
+            for (var j = 0; j < num; j++) {
+                grid.innerHTML += "<div class='inLine'></div>"
+            }
+        }
+
+    }
+
+    if (window.addEventListener) {
+        window.addEventListener('DOMContentLoaded', function (e) {
+        })
+    } else {
+        alert('Dom content is not loaded');
+    }
+
+    init();
+}());
